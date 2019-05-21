@@ -1,0 +1,4 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://admin:admin@lhamacorp-7ye1u.mongodb.net/categorization?retryWrites=true
