@@ -10,6 +10,7 @@ class TransactionConverter {
     fun toDTO(entity: TransactionEntity) : TransactionDTO {
         val dto = TransactionDTO()
 
+        dto.id = entity.id
         dto.description = entity.description
         dto.amount = entity.amount
         dto.date = entity.date

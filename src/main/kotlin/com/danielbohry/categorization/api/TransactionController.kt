@@ -11,6 +11,14 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/v1/transactions")
 class TransactionController(val service: TransactionService, val converter: TransactionConverter) {
 
+    @GetMapping("/")
+    fun getAll(): ResponseEntity<List<TransactionDTO>> {
+        return ResponseEntity.ok(
+                service.getAll()
+                        .map { transaction -> converter.toDTO(transaction) }
+        )
+    }
+
     @GetMapping("{id}")
     fun get(@PathVariable("id") id: String): ResponseEntity<TransactionDTO> {
         return service.get(id)
@@ -19,7 +27,7 @@ class TransactionController(val service: TransactionService, val converter: Tran
     }
 
     @PostMapping
-    fun save(@RequestBody dto: TransactionDTO) : ResponseEntity<Void> {
+    fun save(@RequestBody dto: TransactionDTO): ResponseEntity<Void> {
         service.save(converter.toBO(dto))
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }

@@ -6,6 +6,7 @@ import java.time.LocalDate
 
 class TransactionDTO {
 
+    var id: String? = null
     var description: String? = null
     var sepaCode: String? = null
     var amount: BigDecimal? = null
