@@ -21,15 +21,20 @@ class TransactionController(val service: TransactionService, val converter: Tran
 
     @GetMapping("{id}")
     fun get(@PathVariable("id") id: String): ResponseEntity<TransactionDTO> {
-        return service.get(id)
-                .map { transaction -> ResponseEntity.ok(converter.toDTO(transaction)) }
-                .orElseThrow { ResourceNotFoundException("ID [$id] not found") }
+        val response = service.get(id)
+        return ResponseEntity.ok(converter.toDTO(response))
     }
 
     @PostMapping
     fun save(@RequestBody dto: TransactionDTO): ResponseEntity<Void> {
         service.save(converter.toBO(dto))
         return ResponseEntity.status(HttpStatus.CREATED).build()
+    }
+
+    @PutMapping("/{id}")
+    fun update(@PathVariable("id") id: String, @RequestBody dto: TransactionDTO): ResponseEntity<TransactionDTO> {
+        val response = service.update(id, converter.toBO(dto))
+        return ResponseEntity.ok(converter.toDTO(response))
     }
 
 }
