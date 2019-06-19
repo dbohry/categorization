@@ -5,7 +5,7 @@ import com.danielbohry.categorization.infrastructure.entities.TransactionEntity
 import org.springframework.stereotype.Component
 
 @Component
-class TransactionConverter {
+class TransactionConverter(val categoryConverter: CategoryConverter) {
 
     fun toDTO(entity: TransactionEntity) : TransactionDTO {
         val dto = TransactionDTO()
@@ -15,7 +15,7 @@ class TransactionConverter {
         dto.amount = entity.amount
         dto.date = entity.date
         dto.sepaCode = entity.sepaCode
-        dto.category = entity.category
+        dto.category = categoryConverter.toDTO(entity.category)
 
         return dto
     }
@@ -27,7 +27,7 @@ class TransactionConverter {
         entity.amount = dto.amount
         entity.date = dto.date
         entity.sepaCode = dto.sepaCode
-        entity.category = dto.category
+        entity.category = dto.category?.let { categoryConverter.toEntity(it) }
 
         return entity
     }

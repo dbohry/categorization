@@ -6,12 +6,19 @@ import com.danielbohry.categorization.infrastructure.entities.TransactionEntity
 import org.springframework.stereotype.Service
 
 @Service
-class TransactionService(val repo: TransactionRepo) {
+class TransactionService(val repo: TransactionRepo, val categoryService: CategoryService) {
 
     fun getAll(): List<TransactionEntity> = repo.findAll()
 
-    fun get(id: String): TransactionEntity =
-            repo.findById(id).orElseThrow { ResourceNotFoundException(notFoundMessage(id)) }
+    fun get(id: String): TransactionEntity {
+        val transaction = repo.findById(id).orElseThrow { ResourceNotFoundException(notFoundMessage(id)) }
+
+        val category = transaction.category?.name
+
+        transaction.category = categoryService.getByName(category.orEmpty()).orElse(null)
+
+        return transaction
+    }
 
     fun save(transaction: TransactionEntity) = repo.save(transaction)
 
@@ -21,6 +28,11 @@ class TransactionService(val repo: TransactionRepo) {
             it.sepaCode = transaction.sepaCode
             it.date = transaction.date
             it.amount = transaction.amount
+            it.category = transaction.category
+
+            val category = transaction.category?.name.orEmpty()
+
+            it.category = categoryService.getByName(category).orElse(null)
 
             repo.save(it)
         }.orElseThrow { ResourceNotFoundException(notFoundMessage(id)) }
