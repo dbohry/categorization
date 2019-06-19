@@ -18,4 +18,14 @@ class RuleConverter {
         return dto
     }
 
+    fun toEntity(dto : RuleDTO) : RuleEntity {
+        var entity = RuleEntity()
+
+        entity.description = dto.description
+        entity.name = dto.name
+        entity.syntaxe = dto.syntaxe
+
+        return entity
+    }
+
 }

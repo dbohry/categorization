@@ -1,6 +1,6 @@
 package com.danielbohry.categorization.business
 
-import com.danielbohry.categorization.exception.ResourceNotFoundException
+import com.danielbohry.categorization.business.exception.ResourceNotFoundException
 import com.danielbohry.categorization.infrastructure.TransactionRepo
 import com.danielbohry.categorization.infrastructure.entities.TransactionEntity
 import org.springframework.stereotype.Service

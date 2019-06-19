@@ -2,7 +2,6 @@ package com.danielbohry.categorization.api
 
 import com.danielbohry.categorization.api.dto.TransactionDTO
 import com.danielbohry.categorization.business.TransactionService
-import com.danielbohry.categorization.exception.ResourceNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
