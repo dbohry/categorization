@@ -3,27 +3,41 @@ package com.danielbohry.categorization.api
 import com.danielbohry.categorization.api.dto.CategoryDTO
 import com.danielbohry.categorization.api.dto.RuleDTO
 import com.danielbohry.categorization.business.CategoryService
-import com.danielbohry.categorization.business.RuleService
+import com.danielbohry.categorization.business.exception.ResourceNotFoundException
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.lang.String.format
 
 @RestController
 @RequestMapping("/api/v1/categories")
 class CategoryController(
-        val categoryService: CategoryService,
+        val service: CategoryService,
         val categoryConverter: CategoryConverter,
-        val ruleService: RuleService,
         val ruleConverter: RuleConverter) {
 
     @GetMapping
-    fun getAll() = categoryService.getAll()
+    fun getAll() = service.getAll()
 
     @PostMapping
     fun save(@RequestBody category: CategoryDTO) =
-            categoryService.save(categoryConverter.toEntity(category))
+            service.save(categoryConverter.toEntity(category))
+
+    @GetMapping("/{category}")
+    fun getByName(@PathVariable category: String): ResponseEntity<CategoryDTO> {
+        val result = service.getByName(category).orElseThrow {
+            ResourceNotFoundException(format("Category %s not found", category))
+        }
+
+        return ResponseEntity.ok(categoryConverter.toDTO(result))
+    }
 
     @GetMapping("/{category}/rules")
-    fun getAllRules(@PathVariable category: String): ResponseEntity<List<RuleDTO>> =
-            ResponseEntity.ok(ruleService.getAll().map { rule -> ruleConverter.toDTO(rule) })
+    fun getRulesFromCategory(@PathVariable category: String): ResponseEntity<List<RuleDTO>> {
+        val result = service.getByName(category).orElseThrow {
+            ResourceNotFoundException(format("Category %s not found", category))
+        }
+
+        return ResponseEntity.ok(result.rules?.map { it -> ruleConverter.toDTO(it) }.orEmpty())
+    }
 
 }

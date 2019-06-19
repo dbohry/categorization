@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 @Service
 class TransactionService(val repo: TransactionRepo) {
 
-    fun getAll() : List<TransactionEntity> = repo.findAll()
+    fun getAll(): List<TransactionEntity> = repo.findAll()
 
     fun get(id: String): TransactionEntity =
             repo.findById(id).orElseThrow { ResourceNotFoundException(notFoundMessage(id)) }
@@ -26,8 +26,6 @@ class TransactionService(val repo: TransactionRepo) {
         }.orElseThrow { ResourceNotFoundException(notFoundMessage(id)) }
     }
 
-    private fun notFoundMessage(id: String) : String {
-        return "ID [$id] not found"
-    }
+    private fun notFoundMessage(id: String): String = "ID [$id] not found"
 
 }

@@ -8,12 +8,23 @@ import org.springframework.stereotype.Component
 class CategoryConverter(val ruleConverter: RuleConverter) {
 
     fun toEntity(dto: CategoryDTO): CategoryEntity {
-        var entity = CategoryEntity()
+        val entity = CategoryEntity()
         entity.name = dto.name
         entity.type = dto.type
         entity.rules = dto.rules?.map { ruleConverter.toEntity(it) }
 
         return entity
+    }
+
+    fun toDTO(entity: CategoryEntity?): CategoryDTO {
+        val dto = CategoryDTO()
+
+        dto.id = entity?.id
+        dto.name = entity?.name
+        dto.type = entity?.type
+        dto.rules = entity?.rules?.map { ruleConverter.toDTO(it) }
+
+        return dto
     }
 
 }

@@ -8,9 +8,8 @@ import org.springframework.stereotype.Component
 class RuleConverter {
 
     fun toDTO(entity: RuleEntity): RuleDTO {
-        var dto = RuleDTO()
+        val dto = RuleDTO()
 
-        dto.id = entity.id
         dto.name = entity.name
         dto.description = entity.description
         dto.syntaxe = entity.syntaxe
@@ -19,7 +18,7 @@ class RuleConverter {
     }
 
     fun toEntity(dto : RuleDTO) : RuleEntity {
-        var entity = RuleEntity()
+        val entity = RuleEntity()
 
         entity.description = dto.description
         entity.name = dto.name
