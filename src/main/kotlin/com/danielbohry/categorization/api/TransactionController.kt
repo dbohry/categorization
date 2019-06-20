@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/v1/transactions")
 class TransactionController(val service: TransactionService, val converter: TransactionConverter) {
 
-    @GetMapping("/")
+    @GetMapping
     fun getAll(): ResponseEntity<List<TransactionDTO>> {
         return ResponseEntity.ok(
                 service.getAll()
@@ -18,7 +18,7 @@ class TransactionController(val service: TransactionService, val converter: Tran
         )
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     fun get(@PathVariable("id") id: String): ResponseEntity<TransactionDTO> {
         val response = service.get(id)
         return ResponseEntity.ok(converter.toDTO(response))

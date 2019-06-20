@@ -1,6 +1,17 @@
-server:
-  port: 8001
 spring:
+  application:
+    name: categorization
+
+---
+spring:
+  profiles: development
   data:
     mongodb:
       uri: mongodb+srv://admin:admin@lhamacorp-7ye1u.mongodb.net/categorization?retryWrites=true
+
+---
+spring:
+  profiles: test
+  data:
+    mongodb:
+      uri: mongodb+srv://admin:admin@lhamacorp-7ye1u.mongodb.net/categorizationTest?retryWrites=true
